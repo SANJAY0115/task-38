@@ -1,0 +1,238 @@
+Design database for Zen class programme
+
+users
+
+codekata
+db.codekata.insertMany([
+    {  
+        user : "Gopi",
+        codekataSolved : 100
+    },
+    {
+        user : "shankar",
+        codekataSolved : 90
+    },
+    {
+        user : "Ashwin",
+        codekataSolved : 50
+    },
+    {
+        user : "Ajith",
+        codekataSolved : 120
+    },
+    {
+        user : "Vijay",
+        codekataSolved : 130
+    },
+    {
+        user : "vickram",
+        codekataSolved : 40
+    },
+    {
+        user : "Dhanush",
+        codekataSolved : 150
+    },
+    {
+        user : "karthik",
+        codekataSolved : 90
+    }
+]);
+
+attendance
+
+topics
+db.topic.insertMany([
+    {
+      topic : "HTML",
+      month : "october"
+    },
+    {
+        topic : "CSS",
+        month : "october"
+      },{
+        topic : "Bootstrap5",
+        month : "september"
+      },{
+        topic : "Javascript",
+        month : "November"
+      },{
+        topic : "React",
+        month : "January"
+      },{
+        topic : "Node.js",
+        month : "Febuary"
+      }
+]);
+
+tasks
+db.task.insertMany([
+    {
+      task : "create an input form",
+      month : "october"
+    },
+    {
+        task : "design a dashboard",
+        month : "November"
+      },
+      {
+        task : "countdown app",
+        month : "october"
+      },
+      {
+        task : "calculator",
+        month : "December"
+      },
+      {
+        task : "pagination",
+        month : "January"
+      },
+      {
+        task : "Pokemon api",
+        month : "september"
+      },
+      {
+        task : "Breweries",
+        month : "october"
+      },
+      {
+        task : "Youtube clone",
+        month : "febuary"
+      },
+      {
+        task : "Login form",
+        month : "october"
+      },
+      {
+        task : "Todo list",
+        month : "January"
+      }
+]);
+
+company_drives
+db.companyDrive.insertMany([
+    {
+        company : "Zoho private limited",
+        studentsHired : 4,
+        Date : 5,
+        Month : "october 2020"
+    },
+    {
+        company : "Tata consultancy service",
+        studentsHired : 2,
+        Date : 10,
+        Month : "october 2020"
+    },
+    {
+        company : "wipro",
+        studentsHired : 14,
+        Date : 28,
+        Month : "october 2020"
+    },
+    {
+        company : "Infosys",
+        studentsHired : 4,
+        Date : 8,
+        Month : "october 2020"
+    },
+    {
+        company : "Accenture",
+        studentsHired : 24,
+        Date : 25,
+        Month : "october 2020"
+    },
+    {
+        company : "HCL",
+        studentsHired : 14,
+        Date : 14,
+        Month : "october 2020"
+    },
+    {
+        company : "HP",
+        studentsHired : 3,
+        Date : 31,
+        Month : "october 2020"
+    },
+    {
+        company : "Microsoft",
+        studentsHired : 1,
+        Date : 26,
+        Month : "october 2020"
+    }
+]);
+
+mentors
+db.mentors.insertMany([
+    {
+        mentor : "vidhya",
+        mentee_Count : 19
+    },
+    {
+        mentor : "sanjay",
+        mentee_Count : 15
+    },
+    {
+        mentor : "RagavKumar",
+        mentee_Count : 22
+    },
+    {
+        mentor : "Dinesh",
+        mentee_Count : 10
+    },
+    {
+        mentor : "Roopan",
+        mentee_Count : 20
+    },
+    {
+        mentor : "Sathish",
+        mentee_Count : 19
+    },
+    {
+        mentor : "Prasanth",
+        mentee_Count : 26
+    },
+    {
+        mentor : "sharmila",
+        mentee_Count : 30
+    },
+    {
+        mentor : "Deepan",
+        mentee_Count : 26
+    }
+])
+
+---------------------------------------------------
+
+Find all the topics and tasks which are thought in the month of October
+         db.topic.aggregate([
+    {
+        $lookup : {
+            from : "task",
+            localField : "month",
+            foreignField : "month",
+            as : "topic and task"
+        }
+    },{
+        $match: {
+        
+           "month" :  "october"
+        }
+    }
+])
+
+Find all the company drives which appeared between 15 oct-2020 and 31-oct-2020?
+    db.companyDrive.find({Date : {$gte : 15 , $lte : 31}})
+
+Find all the company drives and students who are appeared for the placement.?
+db.companyDrive.find().forEach(
+    function(comp) {
+        print("companyName : "+comp.company)
+    })
+    
+Find the number of problems solved by the user in codekata?
+
+    db.codekata.find({})
+Find all the mentors with who has the mentee's count more than 15?
+     db.mentors.find({mentee_Count : {$gt : 15}})
+     
+Find the number of users who are absent and task is not submitted  between 15 oct-2020 and 31-oct-2020?
+db.users.find({attendance : "absent"})
